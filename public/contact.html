@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact and bookings | Wollemi Group</title>
+<meta name="description" content="Book a site visit, call Ben or send an enquiry to Wollemi Group, Maribyrnong, Melbourne.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/logo/favicon-32.png" sizes="32x32">
+<link rel="icon" href="assets/logo/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,700..900&family=Atkinson+Hyperlegible+Next:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="draft-bar"><b>Draft 2 for Helen and Ben.</b> Text marked <span class="confirm">like this</span> needs your answer before the site goes live.</div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Wollemi Group home"><img class="logo-full" src="assets/logo/wollemi-lockup.svg" alt="Wollemi Group" width="300" height="89"><img class="logo-name" src="assets/logo/wollemi-wordmark.svg" alt="Wollemi Group" width="220" height="50"></a>
+    <nav class="nav" aria-label="Main"><a href="building.html">Building</a><a href="granny-flats.html">Granny flats</a><a href="surveying.html">Building permits</a><a href="accessible-homes.html">NDIS modifications</a><a href="civil-concrete.html">Civil and concrete</a><a href="projects.html">Projects</a><a href="about.html">About</a><a class="btn" href="contact.html">Book a site visit</a></nav>
+    <details class="menu"><summary>Menu</summary><nav class="menu-list" aria-label="Main"><a href="building.html">Building</a><a href="granny-flats.html">Granny flats</a><a href="surveying.html">Building permits</a><a href="accessible-homes.html">NDIS modifications</a><a href="civil-concrete.html">Civil and concrete</a><a href="projects.html">Projects</a><a href="about.html">About</a><a href="contact.html">Book a site visit</a><a href="tel:+61481008080">Call Ben on 0481 008 080</a></nav></details>
+  </div>
+</header>
+<main id="main">
+
+<section class="page-hero"><div class="wrap"><svg class="roof" viewBox="0 0 46 14" aria-hidden="true"><path d="M2 12 L23 2 L44 12"/></svg><p class="eyebrow">Contact</p><h1>Talk to us about your project</h1><p class="lead">Send an enquiry, book a time, or call Ben. Plans and photos help us come back to you with the right next step.</p></div></section>
+<section class="band"><div class="wrap contact-grid">
+  <div>
+    <h2>Send an enquiry</h2>
+    <form action="/api/enquiry" method="post">
+      <div class="row">
+        <div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="suburb">Suburb of the job</label><input id="suburb" name="suburb" autocomplete="address-level2"></div>
+      </div>
+      <div class="field"><label for="type">Type of work</label>
+        <select id="type" name="type" required><option value="">Choose one</option><option>New home</option><option>Granny flat</option><option>Renovation or extension</option><option>NDIS home modification</option><option>Development</option><option>Commercial fit-out</option><option>Building permit or inspection</option><option>Vehicle turntable</option><option>Civil, council or concrete works</option><option>Something else</option></select></div>
+      <div class="field"><label for="role">Are you the owner, the builder or the designer?</label>
+        <select id="role" name="role"><option value="">Choose one</option><option>Owner</option><option>Builder</option><option>Designer or OT</option><option>Other</option></select></div>
+      <div class="field"><label for="message">Tell us about the job</label><textarea id="message" name="message" required></textarea>
+        <p class="hint">If you have plans or photos, mention it and we'll ask for them when we reply.</p></div>
+      <button class="btn" type="submit" disabled aria-disabled="true">Send enquiry</button>
+      <p class="hint" style="margin-top:10px">We use your details to reply to your enquiry and prepare a quote. Our privacy policy explains how we collect, use, store and correct personal information. <span class="confirm">Privacy policy page to be added before launch</span></p>
+      <p class="hint"><span class="confirm">Draft: the form is not connected yet. It goes live with spam protection once the site is set up.</span></p>
+    </form>
+  </div>
+  <aside>
+    <div class="details">
+      <p class="eyebrow">Call Ben</p>
+      <a class="big-phone" href="tel:+61481008080">0481 008 080</a>
+      <dl>
+        <dt>Email</dt><dd><a href="mailto:admin@wollemigroup.co">admin@wollemigroup.co</a></dd>
+        <dt>Office</dt><dd>Suite 4/48 Edgewater Blvd<br>Maribyrnong VIC 3032</dd>
+        <dt>Hours</dt><dd>Monday to Friday, 9 am to 5 pm</dd>
+        <dt>Areas</dt><dd>Melbourne's north, west and east</dd>
+      </dl>
+    </div>
+    <div class="details" style="margin-top:16px">
+      <h3>Book a site visit</h3>
+      <p>Pick a time for us to come and see the site.</p>
+      <span class="btn" aria-disabled="true">Choose a time</span>
+      <p class="hint" style="margin-top:10px"><span class="confirm">Online booking (Calendly) connects here once your account is set up: site visit, phone call, or both, and how long each takes.</span></p>
+    </div>
+  </aside>
+</div></section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <img src="assets/logo/wollemi-lockup-reversed.svg" alt="Wollemi Group" width="300" height="89">
+        <p>Building, building permits and civil works in Melbourne. Homes, granny flats, NDIS modifications, turntables, and the concrete under them.</p>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li>Ben: <a href="tel:+61481008080">0481 008 080</a></li>
+          <li><a href="mailto:admin@wollemigroup.co">admin@wollemigroup.co</a></li>
+          <li>Suite 4/48 Edgewater Blvd<br>Maribyrnong VIC 3032</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Pages</h3>
+        <ul><li><a href="building.html">Building</a></li><li><a href="granny-flats.html">Granny flats</a></li><li><a href="surveying.html">Building permits</a></li><li><a href="accessible-homes.html">NDIS modifications</a></li><li><a href="civil-concrete.html">Civil and concrete</a></li><li><a href="projects.html">Projects</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+      </div>
+    </div>
+    <div class="base">
+      <span>Wollemi Group Pty Ltd · ABN 17 684 114 529</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
