@@ -8,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const OUT = path.join(__dirname, "public");
 
+const TURNSTILE_SITEKEY = ""; // filled in when the Turnstile widget exists
 const PHONE = "0481 008 080", TEL = "+61481008080", EMAIL = "admin@wollemigroup.co", CONTACT = "Ben";
 const C = (t) => `<span class="confirm">${t}</span>`;            // to confirm with Wollemi
 const roof = `<svg class="roof" viewBox="0 0 46 14" aria-hidden="true"><path d="M2 12 L23 2 L44 12"/></svg>`;
@@ -24,6 +25,27 @@ const NAV = [
   ["projects.html", "Projects"],
   ["about.html", "About"],
 ];
+
+const FORM_JS = `<script>
+(function () {
+  var form = document.querySelector("form[action='/api/enquiry']"); if (!form) return;
+  var status = document.getElementById("form-status");
+  var btn = form.querySelector("button[type=submit]");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var d = {}; new FormData(form).forEach(function (v, k) { d[k] = v; });
+    d.token = d["cf-turnstile-response"] || "";
+    btn.disabled = true; status.textContent = "Sending...";
+    fetch("/api/enquiry", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(d) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (x) {
+        if (x.ok) { form.reset(); status.textContent = "Thanks, we have your enquiry and will be in touch."; }
+        else { btn.disabled = false; status.textContent = "That did not send. Please call or email us instead, or check the details and try again."; }
+      })
+      .catch(function () { btn.disabled = false; status.textContent = "That did not send. Please call or email us instead."; });
+  });
+})();
+</script>${TURNSTILE_SITEKEY ? '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' : ""}`;
 
 const page = (file, title, desc, body) => {
   const nav = NAV.map(([h, t]) => `<a href="${h}"${h === file ? ' aria-current="page"' : ""}>${t}</a>`).join("");
@@ -45,7 +67,6 @@ const page = (file, title, desc, body) => {
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="draft-bar"><b>Draft 2 for Helen and Ben.</b> Text marked ${C("like this")} needs your answer before the site goes live.</div>
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="index.html" aria-label="Wollemi Group home"><img class="logo-full" src="assets/logo/wollemi-lockup.svg" alt="Wollemi Group" width="300" height="89"><img class="logo-name" src="assets/logo/wollemi-wordmark.svg" alt="Wollemi Group" width="220" height="50"></a>
@@ -56,6 +77,7 @@ const page = (file, title, desc, body) => {
 <main id="main">
 ${body}
 </main>
+${file === "contact.html" ? FORM_JS : ""}
 <footer class="site-foot">
   <div class="wrap">
     <div class="cols">
@@ -73,7 +95,7 @@ ${body}
       </div>
       <div>
         <h3>Pages</h3>
-        <ul>${NAV.map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join("")}<li><a href="contact.html">Contact</a></li></ul>
+        <ul>${NAV.map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join("")}<li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li></ul>
       </div>
     </div>
     <div class="base">
@@ -136,7 +158,7 @@ pages["index.html"] = page("index.html", "Wollemi Group | Builders, building per
     </div>
     <div class="hero-photos">
       ${img("jobs/townhouses-townhouses-street.jpg", "Three finished double-storey townhouses on a corner block with timber fences", "real", " Townhouses, Albion 3020")}
-      ${img("civil-turntable-driveway.jpg", "Exposed aggregate driveway with a circular vehicle turntable", "real", " Turntable, Brighton")}
+      ${img("jobs/turntable-kew-driveway.jpg", "Black asphalt driveway with a circular vehicle turntable outline in front of a brick garage", "real", " Turntable, Kew")}
     </div>
   </div>
 </section>
@@ -176,7 +198,7 @@ pages["index.html"] = page("index.html", "Wollemi Group | Builders, building per
       ${card("granny-flats.html", "jobs/granny-flat-kitchen.jpg", "real", "Granny flats", "Small second dwellings for family, a studio or a rental, on your existing block.")}
       ${card("projects.html#clarendon", "jobs/clarendon-roof-trusses.jpg", "real", "Renovations and extensions", "From minor updates to complete renovations, and commercial fit-outs.")}
       ${card("projects.html#ndis-bathroom", "jobs/ndis-bathroom-finished.jpg", "real", "NDIS home modifications", "Changes to a home for an NDIS participant, small or structural, alongside their OT.")}
-      ${card("civil-concrete.html#turntables", "civil-turntable-driveway.jpg", "real", "Vehicle turntables", "So cars on tight blocks and narrow driveways can drive out forwards.")}
+      ${card("civil-concrete.html#turntables", "jobs/turntable-kew-driveway.jpg", "real", "Vehicle turntables", "So cars on tight blocks and narrow driveways can drive out forwards.")}
       ${card("civil-concrete.html#council", "civil-footpath-and-driveway.jpg", "real", "Footpaths, kerbs and crossovers", "Built to the council's specification, with the pits and pipes that go with them.")}
     </div>
   </div>
@@ -266,6 +288,25 @@ pages["granny-flats.html"] = page("granny-flats.html", "Granny flats | Wollemi G
 <section class="band panel"><div class="wrap">${roof}<h2>How a build runs</h2>${buildSteps}${independence}</div></section>
 ${cta("Thinking about a granny flat?", `Book a time for us to see the block, or call ${CONTACT} on ${PHONE}. Send your plans or photos with your enquiry and we'll come back to you with the next step.`)}`);
 
+// ---------------- Privacy ----------------
+pages["privacy.html"] = page("privacy.html", "Privacy policy | Wollemi Group",
+  "How Wollemi Group collects, uses, stores and corrects personal information from enquiries made through this website.", `
+<section class="page-hero"><div class="wrap">${roof}<p class="eyebrow">Privacy</p><h1>Privacy policy</h1><p class="lead">How Wollemi Group Pty Ltd (ABN 17 684 114 529) handles the personal information you send us through this website.</p></div></section>
+<section class="band"><div class="wrap" style="max-width:760px">
+  <h2>What we collect</h2>
+  <p>When you send an enquiry we collect the details you type into the form: your name, phone number, email address, the suburb of the job, the type of work, whether you are the owner, builder or designer, and your message. If you call or email us, we keep the details you give us.</p>
+  <h2>Why we collect it</h2>
+  <p>We use your details to reply to your enquiry, to arrange a site visit and to prepare a quote. We do not sell your details or use them for anything unrelated to your enquiry.</p>
+  <h2>Who sees it</h2>
+  <p>Your enquiry is emailed to us. The website is hosted on Cloudflare, and the form uses Cloudflare Turnstile to stop spam and Resend to send us the email. These services handle your details only to deliver the enquiry to us, and some of their servers are outside Australia.</p>
+  <h2>How long we keep it</h2>
+  <p>We keep an enquiry for as long as we need it to deal with it and with any job that follows, and we then delete or de-identify it.</p>
+  <h2>Seeing or correcting your details</h2>
+  <p>You can ask to see the personal information we hold about you, or to correct it, by emailing <a href="mailto:${EMAIL}">${EMAIL}</a> or calling ${CONTACT} on <a href="tel:${TEL}">${PHONE}</a>.</p>
+  <h2>Complaints</h2>
+  <p>If you are unhappy with how we have handled your information, contact us first. You can also contact the Office of the Australian Information Commissioner at oaic.gov.au.</p>
+</div></section>${cta()}`);
+
 // ---------------- Building permits (surveying) ----------------
 pages["surveying.html"] = page("surveying.html", "Building permits and building surveying | Wollemi Group",
   "Plan assessment, building permits, mandatory stage inspections and occupancy permits from a registered building surveyor in Melbourne, for buildings up to 3 storeys.", `
@@ -344,11 +385,10 @@ pages["civil-concrete.html"] = page("civil-concrete.html", "Civil and concrete w
 </div></section>
 
 <section class="band" id="turntables"><div class="wrap split">
-  <div class="real-small">${img("civil-turntable-driveway.jpg", "Exposed aggregate driveway with a circular vehicle turntable in front of a garage", "real", " Vehicle turntable in a driveway")}</div>
-  <div><h2>Vehicle turntables</h2><p>A turntable lets a car turn around on the driveway and drive out forwards, instead of reversing onto the street. It suits tight blocks and narrow driveways, and saves space for parking on site.</p><ul class="ticks"><li>Homes and commercial sites, including recent turntables in Brighton and Kew</li><li>The slab, the pit and the install, with our turntable supplier</li><li>We'll tell you at the start if the job needs a building permit</li></ul><p class="hint">${C("Which turntable brand do you install?")}</p></div>
+  <div class="real-small">${img("jobs/turntable-kew-driveway.jpg", "Black asphalt driveway with a circular vehicle turntable outline in front of a brick garage", "real", " Vehicle turntable, Kew")}</div>
+  <div><h2>Vehicle turntables</h2><p>A turntable lets a car turn around on the driveway and drive out forwards, instead of reversing onto the street. It suits tight blocks and narrow driveways, and saves space for parking on site.</p><ul class="ticks"><li>Homes and commercial sites, including recent turntables in Brighton and Kew</li><li>The slab, the pit and the install, with our turntable supplier</li><li>We'll tell you at the start if the job needs a building permit</li></ul></div>
 </div></section>
 
-<section class="band"><div class="wrap"><p class="hint">${C("For contractors, add if you have them: a capability statement PDF, your equipment (for example a vacuum truck for NDD), insurances and site tickets.")}</p></div></section>
 ${cta("Got upcoming civil or concrete work?", `Send us the scope or drawings, or call ${CONTACT} on ${PHONE}, and we'll come back to you with a price.`)}`);
 
 // ---------------- Projects ----------------
@@ -423,7 +463,7 @@ ${jobs.map(([id, h, p, shots], i) => `<section class="band${i % 2 ? "" : " panel
 </div></section>`).join("\n")}
 <section class="band" id="civil"><div class="wrap">
   <h2>Civil, concrete and turntables</h2>
-  <div class="gallery">${civilShots.map(([f, c, a, sub]) => `<figure><img src="assets/img/${f}" alt="${a}" loading="lazy"><figcaption><span class="tag real">Wollemi job</span>${c}${sub ? ", " + sub : C(", suburb")}</figcaption></figure>`).join("")}</div>
+  <div class="gallery">${civilShots.map(([f, c, a, sub]) => `<figure><img src="assets/img/${f}" alt="${a}" loading="lazy"><figcaption><span class="tag real">Wollemi job</span>${c}${sub ? ", " + sub : ""}</figcaption></figure>`).join("")}</div>
 </div></section>
 <section class="band panel"><div class="wrap">
   <h2>See it in person</h2>
@@ -490,9 +530,11 @@ pages["contact.html"] = page("contact.html", "Contact and bookings | Wollemi Gro
         <select id="role" name="role"><option value="">Choose one</option><option>Owner</option><option>Builder</option><option>Designer or OT</option><option>Other</option></select></div>
       <div class="field"><label for="message">Tell us about the job</label><textarea id="message" name="message" required></textarea>
         <p class="hint">If you have plans or photos, mention it and we'll ask for them when we reply.</p></div>
-      <button class="btn" type="submit" disabled aria-disabled="true">Send enquiry</button>
-      <p class="hint" style="margin-top:10px">We use your details to reply to your enquiry and prepare a quote. Our privacy policy explains how we collect, use, store and correct personal information. ${C("Privacy policy page to be added before launch")}</p>
-      <p class="hint">${C("Draft: the form is not connected yet. It goes live with spam protection once the site is set up.")}</p>
+      <div class="field" style="position:absolute;left:-9999px" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+      ${TURNSTILE_SITEKEY ? `<div class="cf-turnstile" data-sitekey="${TURNSTILE_SITEKEY}"></div>` : ""}
+      <button class="btn" type="submit">Send enquiry</button>
+      <p class="hint" id="form-status" role="status" aria-live="polite"></p>
+      <p class="hint" style="margin-top:10px">We use your details to reply to your enquiry and prepare a quote. Our <a href="privacy.html">privacy policy</a> explains how we collect, use, store and correct personal information.</p>
     </form>
   </div>
   <aside>
@@ -508,13 +550,12 @@ pages["contact.html"] = page("contact.html", "Contact and bookings | Wollemi Gro
     </div>
     <div class="details" style="margin-top:16px">
       <h3>Book a site visit</h3>
-      <p>Pick a time for us to come and see the site.</p>
-      <span class="btn" aria-disabled="true">Choose a time</span>
-      <p class="hint" style="margin-top:10px">${C("Online booking (Calendly) connects here once your account is set up: site visit, phone call, or both, and how long each takes.")}</p>
+      <p>Call ${CONTACT} on <a href="tel:${TEL}">${PHONE}</a> between 9 am and 5 pm, Monday to Friday, or send the form and we will ring you to arrange a time to see the site.</p>
     </div>
   </aside>
 </div></section>`);
 
 fs.mkdirSync(OUT, { recursive: true });
-for (const [f, html] of Object.entries(pages)) fs.writeFileSync(path.join(OUT, f), html);
+const clean = (h) => h.replace(/href="([a-z-]+)\.html(#[^"]*)?"/g, (m, n, hash) => `href="${n === "index" ? "/" : "/" + n}${hash || ""}"`);
+for (const [f, html] of Object.entries(pages)) fs.writeFileSync(path.join(OUT, f), clean(html));
 console.log("pages:", Object.keys(pages).join(", "));

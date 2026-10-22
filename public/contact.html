@@ -16,12 +16,11 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="draft-bar"><b>Draft 2 for Helen and Ben.</b> Text marked <span class="confirm">like this</span> needs your answer before the site goes live.</div>
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="index.html" aria-label="Wollemi Group home"><img class="logo-full" src="assets/logo/wollemi-lockup.svg" alt="Wollemi Group" width="300" height="89"><img class="logo-name" src="assets/logo/wollemi-wordmark.svg" alt="Wollemi Group" width="220" height="50"></a>
-    <nav class="nav" aria-label="Main"><a href="building.html">Building</a><a href="granny-flats.html">Granny flats</a><a href="surveying.html">Building permits</a><a href="accessible-homes.html">NDIS modifications</a><a href="civil-concrete.html">Civil and concrete</a><a href="projects.html">Projects</a><a href="about.html">About</a><a class="btn" href="contact.html">Book a site visit</a></nav>
-    <details class="menu"><summary>Menu</summary><nav class="menu-list" aria-label="Main"><a href="building.html">Building</a><a href="granny-flats.html">Granny flats</a><a href="surveying.html">Building permits</a><a href="accessible-homes.html">NDIS modifications</a><a href="civil-concrete.html">Civil and concrete</a><a href="projects.html">Projects</a><a href="about.html">About</a><a href="contact.html">Book a site visit</a><a href="tel:+61481008080">Call Ben on 0481 008 080</a></nav></details>
+    <a class="brand" href="/" aria-label="Wollemi Group home"><img class="logo-full" src="assets/logo/wollemi-lockup.svg" alt="Wollemi Group" width="300" height="89"><img class="logo-name" src="assets/logo/wollemi-wordmark.svg" alt="Wollemi Group" width="220" height="50"></a>
+    <nav class="nav" aria-label="Main"><a href="/building">Building</a><a href="/granny-flats">Granny flats</a><a href="/surveying">Building permits</a><a href="/accessible-homes">NDIS modifications</a><a href="/civil-concrete">Civil and concrete</a><a href="/projects">Projects</a><a href="/about">About</a><a class="btn" href="/contact">Book a site visit</a></nav>
+    <details class="menu"><summary>Menu</summary><nav class="menu-list" aria-label="Main"><a href="/building">Building</a><a href="/granny-flats">Granny flats</a><a href="/surveying">Building permits</a><a href="/accessible-homes">NDIS modifications</a><a href="/civil-concrete">Civil and concrete</a><a href="/projects">Projects</a><a href="/about">About</a><a href="/contact">Book a site visit</a><a href="tel:+61481008080">Call Ben on 0481 008 080</a></nav></details>
   </div>
 </header>
 <main id="main">
@@ -45,9 +44,11 @@
         <select id="role" name="role"><option value="">Choose one</option><option>Owner</option><option>Builder</option><option>Designer or OT</option><option>Other</option></select></div>
       <div class="field"><label for="message">Tell us about the job</label><textarea id="message" name="message" required></textarea>
         <p class="hint">If you have plans or photos, mention it and we'll ask for them when we reply.</p></div>
-      <button class="btn" type="submit" disabled aria-disabled="true">Send enquiry</button>
-      <p class="hint" style="margin-top:10px">We use your details to reply to your enquiry and prepare a quote. Our privacy policy explains how we collect, use, store and correct personal information. <span class="confirm">Privacy policy page to be added before launch</span></p>
-      <p class="hint"><span class="confirm">Draft: the form is not connected yet. It goes live with spam protection once the site is set up.</span></p>
+      <div class="field" style="position:absolute;left:-9999px" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+      
+      <button class="btn" type="submit">Send enquiry</button>
+      <p class="hint" id="form-status" role="status" aria-live="polite"></p>
+      <p class="hint" style="margin-top:10px">We use your details to reply to your enquiry and prepare a quote. Our <a href="/privacy">privacy policy</a> explains how we collect, use, store and correct personal information.</p>
     </form>
   </div>
   <aside>
@@ -63,13 +64,31 @@
     </div>
     <div class="details" style="margin-top:16px">
       <h3>Book a site visit</h3>
-      <p>Pick a time for us to come and see the site.</p>
-      <span class="btn" aria-disabled="true">Choose a time</span>
-      <p class="hint" style="margin-top:10px"><span class="confirm">Online booking (Calendly) connects here once your account is set up: site visit, phone call, or both, and how long each takes.</span></p>
+      <p>Call Ben on <a href="tel:+61481008080">0481 008 080</a> between 9 am and 5 pm, Monday to Friday, or send the form and we will ring you to arrange a time to see the site.</p>
     </div>
   </aside>
 </div></section>
 </main>
+<script>
+(function () {
+  var form = document.querySelector("form[action='/api/enquiry']"); if (!form) return;
+  var status = document.getElementById("form-status");
+  var btn = form.querySelector("button[type=submit]");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var d = {}; new FormData(form).forEach(function (v, k) { d[k] = v; });
+    d.token = d["cf-turnstile-response"] || "";
+    btn.disabled = true; status.textContent = "Sending...";
+    fetch("/api/enquiry", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(d) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (x) {
+        if (x.ok) { form.reset(); status.textContent = "Thanks, we have your enquiry and will be in touch."; }
+        else { btn.disabled = false; status.textContent = "That did not send. Please call or email us instead, or check the details and try again."; }
+      })
+      .catch(function () { btn.disabled = false; status.textContent = "That did not send. Please call or email us instead."; });
+  });
+})();
+</script>
 <footer class="site-foot">
   <div class="wrap">
     <div class="cols">
@@ -87,7 +106,7 @@
       </div>
       <div>
         <h3>Pages</h3>
-        <ul><li><a href="building.html">Building</a></li><li><a href="granny-flats.html">Granny flats</a></li><li><a href="surveying.html">Building permits</a></li><li><a href="accessible-homes.html">NDIS modifications</a></li><li><a href="civil-concrete.html">Civil and concrete</a></li><li><a href="projects.html">Projects</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul>
+        <ul><li><a href="/building">Building</a></li><li><a href="/granny-flats">Granny flats</a></li><li><a href="/surveying">Building permits</a></li><li><a href="/accessible-homes">NDIS modifications</a></li><li><a href="/civil-concrete">Civil and concrete</a></li><li><a href="/projects">Projects</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li><li><a href="/privacy">Privacy</a></li></ul>
       </div>
     </div>
     <div class="base">
