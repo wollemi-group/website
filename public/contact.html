@@ -45,7 +45,7 @@
       <div class="field"><label for="message">Tell us about the job</label><textarea id="message" name="message" required></textarea>
         <p class="hint">If you have plans or photos, mention it and we'll ask for them when we reply.</p></div>
       <div class="field" style="position:absolute;left:-9999px" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-      
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAFgcMMGbJPckkNkw"></div>
       <button class="btn" type="submit">Send enquiry</button>
       <p class="hint" id="form-status" role="status" aria-live="polite"></p>
       <p class="hint" style="margin-top:10px">We use your details to reply to your enquiry and prepare a quote. Our <a href="/privacy">privacy policy</a> explains how we collect, use, store and correct personal information.</p>
@@ -88,7 +88,7 @@
       .catch(function () { btn.disabled = false; status.textContent = "That did not send. Please call or email us instead."; });
   });
 })();
-</script>
+</script><script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <footer class="site-foot">
   <div class="wrap">
     <div class="cols">

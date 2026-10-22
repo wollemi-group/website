@@ -8,7 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const OUT = path.join(__dirname, "public");
 
-const TURNSTILE_SITEKEY = ""; // filled in when the Turnstile widget exists
+const TURNSTILE_SITEKEY = "0x4AAAAAAFgcMMGbJPckkNkw"; // public site key (the secret key lives in Cloudflare only)
 const PHONE = "0481 008 080", TEL = "+61481008080", EMAIL = "admin@wollemigroup.co", CONTACT = "Ben";
 const C = (t) => `<span class="confirm">${t}</span>`;            // to confirm with Wollemi
 const roof = `<svg class="roof" viewBox="0 0 46 14" aria-hidden="true"><path d="M2 12 L23 2 L44 12"/></svg>`;
