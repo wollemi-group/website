@@ -11,6 +11,58 @@ const OUT = path.join(__dirname, "public");
 const TURNSTILE_SITEKEY = "0x4AAAAAAFgcMMGbJPckkNkw"; // public site key (the secret key lives in Cloudflare only)
 const PHONE = "0481 008 080", TEL = "+61481008080", EMAIL = "admin@wollemigroup.co", CONTACT = "Ben";
 const C = (t) => `<span class="confirm">${t}</span>`;            // to confirm with Wollemi
+
+// Home page hero video. PLACEHOLDER (25 Oct 2026): a 17-second loop made from Wollemi's own job photos.
+// To use their real video: put the MP4 in public/assets/video/, change src (and poster, a still from it), rebuild.
+// Keep it short, silent and under about 8 MB; the page mutes it and loops it anyway.
+const HERO_VIDEO = {
+  src: "assets/video/hero-placeholder.mp4",
+  poster: "assets/video/hero-placeholder-poster.jpg",
+  caption: "Wollemi jobs in Brighton, Kew and Albion",
+};
+
+// Footer social links. PLACEHOLDERS (25 Oct 2026): no real pages yet, so href is "#".
+// Put the real page address in href when Wollemi has it. Delete a line to hide that icon; [] hides the whole row.
+const SOCIAL = [
+  { name: "Facebook", href: "#", icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z" fill="currentColor"/></svg>` },
+  { name: "Instagram", href: "#", icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>` },
+];
+const socialRow = SOCIAL.length ? `<ul class="social" aria-label="Wollemi Group on social media">${SOCIAL.map((s) => `<li><a href="${s.href}" aria-label="Wollemi Group on ${s.name}"${s.href === "#" ? ' data-placeholder="true"' : ' target="_blank" rel="noopener"'}>${s.icon}</a></li>`).join("")}</ul>` : "";
+
+// Fade-up on scroll, every page. Visitors who ask their device for less motion see everything at once.
+// ?motion=on forces the motion on for review on test addresses (pages.dev, localhost), never the live domain.
+const MOTION_JS = `<script>
+(function () {
+  var d = document.documentElement;
+  var force = /[?&]motion=on/.test(location.search) && /pages\\.dev$|^localhost$|^127\\.0\\.0\\.1$/.test(location.hostname);
+  var still = !force && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (force) d.classList.add("motion-on");
+
+  var v = document.querySelector(".hero-video"), b = document.querySelector(".hero-pause");
+  if (v && b) {
+    var set = function (playing) { b.textContent = playing ? "Pause" : "Play"; b.setAttribute("aria-label", (playing ? "Pause" : "Play") + " the background video"); };
+    v.addEventListener("play", function () { set(true); });
+    v.addEventListener("pause", function () { set(false); });
+    set(false);
+    if (!still) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    b.addEventListener("click", function () { if (v.paused) v.play(); else v.pause(); });
+  }
+
+  if (still || !("IntersectionObserver" in window)) return;
+  var sel = "main section h2, main section .lead, main .path, main .card, main .steps li, main .split > *, main .notice, main .gallery > *, main .ticks li, main .details, main figure";
+  var all = [].slice.call(document.querySelectorAll(sel)).filter(function (el) { return !el.closest(".video-hero, .page-hero"); });
+  var els = all.filter(function (el) { return !all.some(function (o) { return o !== el && o.contains(el); }); });
+  els.forEach(function (el) {
+    var sibs = [].slice.call(el.parentElement.children).filter(function (s) { return els.indexOf(s) > -1; });
+    el.style.setProperty("--d", Math.min(sibs.indexOf(el), 5) * 90 + "ms");
+    el.classList.add("reveal");
+  });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -8% 0px" });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>`;
 const roof = `<svg class="roof" viewBox="0 0 46 14" aria-hidden="true"><path d="M2 12 L23 2 L44 12"/></svg>`;
 const img = (file, alt, tag, cap) => `<figure><img src="assets/img/${file}" alt="${alt}" loading="lazy">${tag || cap ? `<figcaption>${tag === "real" ? '<span class="tag real">Wollemi job</span>' : tag === "concept" ? '<span class="tag">Concept image</span>' : ""}${cap || ""}</figcaption>` : ""}</figure>`;
 const tag = (t) => t === "real" ? '<span class="tag real" style="margin-bottom:8px">Wollemi job</span>' : '<span class="tag" style="margin-bottom:8px">Concept image</span>';
@@ -84,6 +136,7 @@ ${file === "contact.html" ? FORM_JS : ""}
       <div>
         <img src="assets/logo/wollemi-lockup-reversed.svg" alt="Wollemi Group" width="300" height="89">
         <p>Building, building permits and civil works in Melbourne. Homes, granny flats, NDIS modifications, turntables, and the concrete under them.</p>
+        ${socialRow}
       </div>
       <div>
         <h3>Contact</h3>
@@ -103,6 +156,7 @@ ${file === "contact.html" ? FORM_JS : ""}
     </div>
   </div>
 </footer>
+${MOTION_JS}
 </body>
 </html>
 `;
@@ -148,19 +202,19 @@ const pages = {};
 // ---------------- Home ----------------
 pages["index.html"] = page("index.html", "Wollemi Group | Builders, building permits and civil works, Melbourne",
   "Wollemi Group builds homes, granny flats and NDIS home modifications, and does civil and concrete works including vehicle turntables. Building permits from our registered building surveyor. Maribyrnong, Melbourne.", `
-<section class="hero">
+<section class="hero video-hero">
+  <video class="hero-video" src="${HERO_VIDEO.src}" poster="${HERO_VIDEO.poster}" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+  <div class="hero-shade" aria-hidden="true"></div>
   <div class="wrap">
-    <div>
+    <div class="hero-text">
       <p class="eyebrow">Building · Building permits · Civil · Melbourne</p>
       <h1>Building and civil works, from the ground up.</h1>
       <p class="lead">Wollemi Group builds homes, granny flats and NDIS home modifications, and does civil and concrete works. Our registered building surveyor also assesses plans and issues building permits.</p>
       <div class="btns"><a class="btn light" href="contact.html">Book a site visit</a><a class="btn ghost" href="tel:${TEL}">Call ${CONTACT} on ${PHONE}</a></div>
     </div>
-    <div class="hero-photos">
-      ${img("jobs/townhouses-townhouses-street.jpg", "Three finished double-storey townhouses on a corner block with timber fences", "real", " Townhouses, Albion 3020")}
-      ${img("jobs/turntable-kew-driveway.jpg", "Black asphalt driveway with a circular vehicle turntable outline in front of a brick garage", "real", " Turntable, Kew")}
-    </div>
   </div>
+  <p class="hero-credit">${HERO_VIDEO.caption}</p>
+  <button class="hero-pause" type="button" aria-label="Pause the background video">Pause</button>
 </section>
 
 <section class="band">
