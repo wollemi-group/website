@@ -95,7 +95,7 @@
       <div>
         <img src="assets/logo/wollemi-lockup-reversed.svg" alt="Wollemi Group" width="300" height="89">
         <p>Building, building permits and civil works in Melbourne. Homes, granny flats, NDIS modifications, turntables, and the concrete under them.</p>
-        <ul class="social" aria-label="Wollemi Group on social media"><li><a href="#" aria-label="Wollemi Group on Facebook" data-placeholder="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z" fill="currentColor"/></svg></a></li><li><a href="#" aria-label="Wollemi Group on Instagram" data-placeholder="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg></a></li></ul>
+        <ul class="social" aria-label="Wollemi Group on social media"><li><a href="#" aria-label="Wollemi Group on Facebook (coming soon)" data-placeholder="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z" fill="currentColor"/></svg></a></li><li><a href="#" aria-label="Wollemi Group on Instagram (coming soon)" data-placeholder="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg></a></li></ul>
       </div>
       <div>
         <h3>Contact</h3>
@@ -118,9 +118,14 @@
 <script>
 (function () {
   var d = document.documentElement;
-  var force = /[?&]motion=on/.test(location.search) && /pages\.dev$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
-  var still = !force && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var host = location.hostname;
+  var force = new URLSearchParams(location.search).get("motion") === "on" && (host.slice(-10) === ".pages.dev" || host === "localhost" || host === "127.0.0.1");
+  var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var still = !force && rm.matches;
   if (force) d.classList.add("motion-on");
+
+  // Placeholder social links (href "#") do nothing rather than jump to the top
+  [].forEach.call(document.querySelectorAll("a[data-placeholder]"), function (a) { a.addEventListener("click", function (e) { e.preventDefault(); }); });
 
   var v = document.querySelector(".hero-video"), b = document.querySelector(".hero-pause");
   if (v && b) {
@@ -130,6 +135,9 @@
     set(false);
     if (!still) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
     b.addEventListener("click", function () { if (v.paused) v.play(); else v.pause(); });
+    // Less motion switched on while the page is open: stop the video
+    var onRm = function (e) { if (e.matches && !force) v.pause(); };
+    if (rm.addEventListener) rm.addEventListener("change", onRm); else if (rm.addListener) rm.addListener(onRm);
   }
 
   if (still || !("IntersectionObserver" in window)) return;
@@ -145,6 +153,8 @@
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
   }, { rootMargin: "0px 0px -8% 0px" });
   els.forEach(function (el) { io.observe(el); });
+  // Keyboard users never tab onto something still invisible
+  document.addEventListener("focusin", function (e) { var r = e.target.closest && e.target.closest(".reveal"); if (r) r.classList.add("in"); });
 })();
 </script>
 </body>

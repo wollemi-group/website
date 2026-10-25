@@ -18,7 +18,7 @@ const C = (t) => `<span class="confirm">${t}</span>`;            // to confirm w
 const HERO_VIDEO = {
   src: "assets/video/hero-placeholder.mp4",
   poster: "assets/video/hero-placeholder-poster.jpg",
-  caption: "Wollemi jobs in Brighton, Kew and Albion",
+  caption: "Wollemi jobs across Melbourne",
 };
 
 // Footer social links. PLACEHOLDERS (25 Oct 2026): no real pages yet, so href is "#".
@@ -27,16 +27,21 @@ const SOCIAL = [
   { name: "Facebook", href: "#", icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z" fill="currentColor"/></svg>` },
   { name: "Instagram", href: "#", icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>` },
 ];
-const socialRow = SOCIAL.length ? `<ul class="social" aria-label="Wollemi Group on social media">${SOCIAL.map((s) => `<li><a href="${s.href}" aria-label="Wollemi Group on ${s.name}"${s.href === "#" ? ' data-placeholder="true"' : ' target="_blank" rel="noopener"'}>${s.icon}</a></li>`).join("")}</ul>` : "";
+const socialRow = SOCIAL.length ? `<ul class="social" aria-label="Wollemi Group on social media">${SOCIAL.map((s) => `<li><a href="${s.href}" aria-label="Wollemi Group on ${s.name}${s.href === "#" ? " (coming soon)" : ""}"${s.href === "#" ? ' data-placeholder="true"' : ' target="_blank" rel="noopener"'}>${s.icon}</a></li>`).join("")}</ul>` : "";
 
 // Fade-up on scroll, every page. Visitors who ask their device for less motion see everything at once.
 // ?motion=on forces the motion on for review on test addresses (pages.dev, localhost), never the live domain.
 const MOTION_JS = `<script>
 (function () {
   var d = document.documentElement;
-  var force = /[?&]motion=on/.test(location.search) && /pages\\.dev$|^localhost$|^127\\.0\\.0\\.1$/.test(location.hostname);
-  var still = !force && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var host = location.hostname;
+  var force = new URLSearchParams(location.search).get("motion") === "on" && (host.slice(-10) === ".pages.dev" || host === "localhost" || host === "127.0.0.1");
+  var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var still = !force && rm.matches;
   if (force) d.classList.add("motion-on");
+
+  // Placeholder social links (href "#") do nothing rather than jump to the top
+  [].forEach.call(document.querySelectorAll("a[data-placeholder]"), function (a) { a.addEventListener("click", function (e) { e.preventDefault(); }); });
 
   var v = document.querySelector(".hero-video"), b = document.querySelector(".hero-pause");
   if (v && b) {
@@ -46,6 +51,9 @@ const MOTION_JS = `<script>
     set(false);
     if (!still) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
     b.addEventListener("click", function () { if (v.paused) v.play(); else v.pause(); });
+    // Less motion switched on while the page is open: stop the video
+    var onRm = function (e) { if (e.matches && !force) v.pause(); };
+    if (rm.addEventListener) rm.addEventListener("change", onRm); else if (rm.addListener) rm.addListener(onRm);
   }
 
   if (still || !("IntersectionObserver" in window)) return;
@@ -61,6 +69,8 @@ const MOTION_JS = `<script>
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
   }, { rootMargin: "0px 0px -8% 0px" });
   els.forEach(function (el) { io.observe(el); });
+  // Keyboard users never tab onto something still invisible
+  document.addEventListener("focusin", function (e) { var r = e.target.closest && e.target.closest(".reveal"); if (r) r.classList.add("in"); });
 })();
 </script>`;
 const roof = `<svg class="roof" viewBox="0 0 46 14" aria-hidden="true"><path d="M2 12 L23 2 L44 12"/></svg>`;
