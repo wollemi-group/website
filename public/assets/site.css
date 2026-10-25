@@ -246,9 +246,9 @@ button.btn[disabled]:hover { transform: none; box-shadow: 5px 5px 0 0 var(--btn-
 
 /* Social icons in the footer */
 .site-foot .social { list-style: none; display: flex; gap: 10px; padding: 0; margin: 4px 0 0; }
-.social a { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgba(255,255,255,.4); color: #fff; transition: background .2s, border-color .2s; }
-.social a:hover { background: var(--orange); border-color: var(--orange); }
-.social svg { width: 20px; height: 20px; }
+.social a { display: grid; place-items: center; width: 42px; height: 42px; transition: transform .2s; }
+.social a:hover { transform: translateY(-2px); }
+.social svg { width: 36px; height: 36px; }
 
 /* Fade up on scroll. Only applied by the page script, so without it everything simply shows */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease-out, transform .6s cubic-bezier(.2,.7,.3,1); transition-delay: var(--d, 0ms); }
