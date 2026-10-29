@@ -166,7 +166,7 @@ pages["index.html"] = page("index.html", "Wollemi Group | Builders, building per
 <section class="band">
   <div class="wrap">
     <div class="paths three">
-      <a class="path" href="building.html"><img src="assets/img/jobs/townhouses-front-door.jpg" alt="" loading="lazy"><div><span class="tag real" style="margin-bottom:8px">Wollemi job</span><p class="eyebrow">For homeowners</p><h3>Building or renovating?</h3><p>Custom homes, granny flats, renovations and extensions, and NDIS home modifications.</p><span class="go">Building &rarr;</span></div></a>
+      <a class="path" href="building.html"><img src="assets/img/jobs/townhouses-albion-3.jpg" alt="" loading="lazy"><div><span class="tag real" style="margin-bottom:8px">Wollemi job</span><p class="eyebrow">For homeowners</p><h3>Building or renovating?</h3><p>Custom homes, granny flats, renovations and extensions, and NDIS home modifications.</p><span class="go">Building &rarr;</span></div></a>
       <a class="path" href="surveying.html"><div class="pfill">${roof}<b>Plans · Permit · Inspections · Final</b></div><div><p class="eyebrow">For owners, designers and builders</p><h3>Need a building permit?</h3><p>Plan assessment, building permits, stage inspections and final sign-off from our registered building surveyor.</p><span class="go">Building permits &rarr;</span></div></a>
       <a class="path" href="civil-concrete.html"><img src="assets/img/jobs/drainage-pipework.jpg" alt="" loading="lazy"><div><span class="tag real" style="margin-bottom:8px">Wollemi job</span><p class="eyebrow">For builders and project teams</p><h3>Need civil or concrete work?</h3><p>Pits and pipes, drainage, council footpaths, kerb and channel, digging and complex concrete.</p><span class="go">Civil and concrete &rarr;</span></div></a>
     </div>
@@ -194,7 +194,7 @@ pages["index.html"] = page("index.html", "Wollemi Group | Builders, building per
   <div class="wrap">
     <div class="head-row"><div>${roof}<h2>What we do</h2></div><p><a href="contact.html">Not sure where your job fits? Ask us.</a></p></div>
     <div class="cards">
-      ${card("projects.html#townhouses", "jobs/townhouses-townhouses-front.jpg", "real", "Custom homes and developments", "New homes, boutique and multi-unit developments, built to your plans and your block.")}
+      ${card("projects.html#townhouses", "jobs/townhouses-albion-2.jpg", "real", "Custom homes and developments", "New homes, boutique and multi-unit developments, built to your plans and your block.")}
       ${card("granny-flats.html", "jobs/granny-flat-kitchen.jpg", "real", "Granny flats", "Small second dwellings for family, a studio or a rental, on your existing block.")}
       ${card("projects.html#clarendon", "jobs/clarendon-roof-trusses.jpg", "real", "Renovations and extensions", "From minor updates to complete renovations, and commercial fit-outs.")}
       ${card("projects.html#ndis-bathroom", "jobs/ndis-bathroom-finished.jpg", "real", "NDIS home modifications", "Changes to a home for an NDIS participant, small or structural, alongside their OT.")}
@@ -407,11 +407,20 @@ const jobs = [
     ["ndis-bathroom-tiling", "Tiling", "Large white wall tiles going up with levelling clips"],
   ]],
   ["townhouses", "Townhouses: Albion, Maribyrnong and Essendon", "Three townhouse developments of three homes each: double-storey in Albion and Maribyrnong, triple-storey in Essendon. The Albion townhouses were completed in about six months.", [
-    ["townhouses-townhouses-street", "Finished, from the street", "Finished double-storey townhouses with timber front fences"],
-    ["townhouses-townhouses-front", "Finished townhouses with their driveways", "Two finished townhouses side by side with concrete driveways"],
-    ["townhouses-townhouse-corner", "Corner townhouse", "Finished townhouse on the corner, with a new footpath and crossover"],
-    ["townhouses-front-door", "Front entry", "Brick front entry with a timber door and a new lawn"],
-    ["townhouses-living-room", "Living and kitchen", "Open living room with timber floors, a kitchen and sliding doors to the yard"],
+    ["townhouses-albion-2", "Albion: finished front", "Finished two-storey townhouse in white and charcoal brick with a garage and timber fence"],
+    ["townhouses-albion-3", "Albion: from the street", "Two finished townhouses seen from the street"],
+    ["townhouses-albion-4", "Albion: kitchen and stairs", "Open-plan kitchen with a timber staircase"],
+    ["townhouses-albion-7", "Albion: kitchen island", "Kitchen with a stone-top island"],
+    ["townhouses-albion-8", "Albion: living area", "Living area with a sliding door to the yard"],
+    ["townhouses-albion-6", "Albion: bathroom", "Bathroom with an oval basin"],
+    ["townhouses-albion-10", "Albion: freestanding bath", "Bathroom with a freestanding bath"],
+    ["townhouses-essendon-2", "Essendon: finished corner", "Finished triple-storey townhouses in oak and stone on the corner"],
+    ["townhouses-essendon-3", "Essendon: kitchen", "Kitchen with a large island"],
+    ["townhouses-essendon-6", "Essendon: staircase", "Lit timber and glass staircase"],
+    ["townhouses-essendon-8", "Essendon: shower", "Shower with brass fittings"],
+    ["townhouses-essendon-9", "Essendon: double vanity", "Double vanity with round lit mirrors"],
+    ["townhouses-essendon-11", "Essendon: roof terrace", "Roof terrace on the top level"],
+    ["townhouses-essendon-12", "Essendon: rooftop view", "View from the roof terrace towards the city"],
     ["townhouses-frames-scaffold", "Frames with edge protection", "Two-storey townhouse frames with scaffold and edge protection around the roof"],
     ["townhouses-frame-stage", "Frames and wrap", "Double-storey timber frames with scaffold, behind Wollemi site fencing"],
     ["townhouses-driveway-pour", "Driveway and path pour", "Fresh concrete path being finished beside the townhouses"],
