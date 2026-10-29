@@ -449,7 +449,7 @@ pages["civil-concrete.html"] = page("civil-concrete.html", "Civil and concrete w
 </div></section>
 
 <section class="band" id="turntables"><div class="wrap split">
-  <div class="real-small">${img("jobs/turntable-kew-driveway.jpg", "Black asphalt driveway with a circular vehicle turntable outline in front of a brick garage", "real", " Vehicle turntable, Kew")}<video class="turntable-video" src="assets/video/turntable.mp4" poster="assets/video/turntable-poster.jpg" muted loop playsinline autoplay controls preload="metadata" aria-label="A car turning on a vehicle turntable on a driveway" style="width:100%;margin-top:12px;border-radius:8px;display:block"></video></div>
+  <div class="real-small">${img("jobs/turntable-kew-driveway.jpg", "Black asphalt driveway with a circular vehicle turntable outline in front of a brick garage", "real", " Vehicle turntable, Kew")}<video class="turntable-video" src="assets/video/turntable.mp4" poster="assets/video/turntable-poster.jpg" muted loop playsinline autoplay controls preload="metadata" aria-label="A car turning on a vehicle turntable on a driveway" style="width:100%;max-width:340px;aspect-ratio:9/16;object-fit:contain;background:#000;margin:12px auto 0;border-radius:8px;display:block"></video></div>
   <div><h2>Vehicle turntables</h2><p>A turntable lets a car turn around on the driveway and drive out forwards, instead of reversing onto the street. It suits tight blocks and narrow driveways, and saves space for parking on site.</p><ul class="ticks"><li>Homes and commercial sites, including recent turntables in Brighton and Kew</li><li>The slab, the pit and the install, with our turntable supplier</li><li>We'll tell you at the start if the job needs a building permit</li></ul></div>
 </div></section>
 
