@@ -16,8 +16,8 @@ const C = (t) => `<span class="confirm">${t}</span>`;            // to confirm w
 // To use their real video: put the MP4 in public/assets/video/, change src (and poster, a still from it), rebuild.
 // Keep it short, silent and under about 8 MB; the page mutes it and loops it anyway.
 const HERO_VIDEO = {
-  src: "assets/video/hero-placeholder.mp4",
-  poster: "assets/video/hero-placeholder-poster.jpg",
+  src: "assets/video/hero-townhouses.mp4",
+  poster: "assets/video/hero-townhouses-poster.jpg",
   caption: "Wollemi jobs across Melbourne",
 };
 
