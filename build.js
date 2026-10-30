@@ -84,6 +84,7 @@ const NAV = [
   ["surveying.html", "Building permits"],
   ["accessible-homes.html", "NDIS modifications"],
   ["civil-concrete.html", "Civil and concrete"],
+  ["building-maintenance.html", "Building maintenance"],
   ["projects.html", "Projects"],
   ["about.html", "About"],
 ];
@@ -351,6 +352,63 @@ pages["granny-flats.html"] = page("granny-flats.html", "Granny flats | Wollemi G
 
 <section class="band panel"><div class="wrap">${roof}<h2>How a build runs</h2>${buildSteps}${independence}</div></section>
 ${cta("Thinking about a granny flat?", `Book a time for us to see the block, or call ${CONTACT} on ${PHONE}. Send your plans or photos with your enquiry and we'll come back to you with the next step.`)}`);
+
+// ---------------- Building maintenance ----------------
+// Copy from Helen's Word file and Google Doc, 30 Oct 2026, tidied into plain voice. Photos: only the two balcony repair jobs exist so far.
+const maintShots = [
+  ["balcony-scaffold", "Maribyrnong: scaffold up", "Townhouse front with scaffold on the first-floor balcony"],
+  ["balcony-membrane", "Maribyrnong: waterproofing membrane", "Balcony floor coated with a black waterproofing membrane"],
+  ["balcony-tiled", "Maribyrnong: tiled", "Finished balcony with large grey tiles"],
+  ["balcony-aberfeldie-laying", "Aberfeldie: tiles going down", "Balcony floor with large tiles being laid on pedestals"],
+  ["balcony-aberfeldie-tiled", "Aberfeldie: tiled", "Finished balcony with large grey tiles"],
+];
+pages["building-maintenance.html"] = page("building-maintenance.html", "Building maintenance | Wollemi Group",
+  "Property maintenance in Melbourne for homeowners, landlords and property managers: carpentry, plumbing, roof leaks, painting, external works and rental turnaround repairs.", `
+<section class="page-hero"><div class="wrap">${roof}<p class="eyebrow">Building maintenance</p><h1>Property maintenance across Melbourne</h1><p class="lead">Repairs and upkeep for homeowners, landlords and real estate property managers. From a sticking door to a roof leak, and the fixes needed to turn a rental around.</p><div class="btns"><a class="btn" href="contact.html">Book a site visit</a><a class="btn line" href="tel:${TEL}">Call ${PHONE}</a></div></div></section>
+
+<section class="band"><div class="wrap">
+  <h2>What we cover</h2>
+  <p>Domestic and commercial maintenance. We fix the cause of the problem, not just the mark it leaves.</p>
+  <div class="cards">
+    <div class="card"><h3>General repairs and carpentry</h3><p>Sticking doors, door handles, hinges and locks, latch adjustments, skirtings and architraves, plaster patching and minor framing repairs.</p></div>
+    <div class="card"><h3>Plumbing and wet areas</h3><p>Toilet suite repairs and replacements, tapware, leak repairs, silicone and joint sealing, and vanity adjustments.</p></div>
+    <div class="card"><h3>Roofing and rainwater</h3><p>Finding and fixing roof leaks, tile replacement, flashing repairs, gutter cleaning, downpipe clearing and minor roof plumbing.</p></div>
+    <div class="card"><h3>Painting and finishes</h3><p>Interior and exterior touch-ups, patch repairs, end-of-lease repaints, stain matching and weatherproof sealing.</p></div>
+    <div class="card"><h3>External works</h3><p>Deck repairs and re-oiling, step replacement, fence and gate repairs, boundary adjustments and minor concrete and paving.</p></div>
+    <div class="card"><h3>Turnaround and compliance</h3><p>Property condition fixes, pre-sale tune-ups, end-of-lease repairs, and safety fixes such as latches, rails and barrier adjustments.</p></div>
+  </div>
+  <p>Extensions and major structural work are separate jobs. See our <a href="building.html">Building page</a>.</p>
+</div></section>
+
+<section class="band panel"><div class="wrap">
+  <h2>Who it's for</h2>
+  <div class="cards">
+    <div class="card"><h3>Real estate agents and property managers</h3><p>Quick turnaround on routine maintenance, urgent tenant-reported issues and repairs needed to get a bond back.</p></div>
+    <div class="card"><h3>Landlords and commercial owners</h3><p>Ongoing upkeep, minor capital works, preventative maintenance and the repairs the rules require.</p></div>
+    <div class="card"><h3>Homeowners, strata and body corporates</h3><p>One-off repairs, upgrades, common-property fixes in apartments and seasonal upkeep.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap split">
+  <div>
+    <h2>Where we work</h2>
+    <p>Melbourne's northern, western and inner eastern suburbs.</p>
+    <h2>Urgent call-outs</h2>
+    <p>Scheduled maintenance, plus priority call-outs for problems that can't wait: an active roof leak, a broken lock, an urgent plumbing fault or a tenant security issue.</p>
+  </div>
+  <div>
+    <h2>Working with agents</h2>
+    <ul class="ticks"><li>Clear, prompt communication</li><li>Itemised invoices</li><li>Before and after photos of every job</li><li>We coordinate with the tenant directly</li></ul>
+  </div>
+</div></section>
+
+<section class="band panel"><div class="wrap">
+  <h2>Repairs we have done</h2>
+  <p>Two balcony repairs: new waterproofing, then large-format tiles.</p>
+  <div class="gallery">${maintShots.map(([f, c, a]) => `<figure><img src="assets/img/jobs/${f}.jpg" alt="${a}" loading="lazy"><figcaption><span class="tag real">Wollemi job</span>${c}</figcaption></figure>`).join("")}</div>
+  <p><a href="projects.html">See more on the Projects page &rarr;</a></p>
+</div></section>
+${cta("Need something fixed?", `Call ${CONTACT} on ${PHONE}, or send a message with photos of the problem and we'll come back to you with the next step.`)}`);
 
 // ---------------- Privacy ----------------
 pages["privacy.html"] = page("privacy.html", "Privacy policy | Wollemi Group",
