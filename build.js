@@ -522,12 +522,6 @@ const civilShots = [
   ["jobs/drainage-pipework.jpg", "Drainage pipework", "White drainage pipework laid in an open trench with pit connections"],
 ];
 const jobs = [
-  ["ndis-bathroom", "NDIS bathroom renovation", "A bathroom rebuilt for an NDIS participant: stripped out, waterproofed, retiled, with grab rails in the shower.", [
-    ["ndis-bathroom-finished", "Finished, with grab rails", "Renovated bathroom with grab rails in the shower and a freestanding bath"],
-    ["ndis-bathroom-strip-out", "Strip-out", "Old tiles stripped from the bathroom walls, with tools on the floor"],
-    ["ndis-bathroom-waterproofing", "Waterproofing", "Bathroom wall sheeted and waterproofed, with a shower niche"],
-    ["ndis-bathroom-tiling", "Tiling", "Large white wall tiles going up with levelling clips"],
-  ]],
   ["townhouses", "Townhouses: Albion, Maribyrnong and Essendon", "Three townhouse developments of three homes each: double-storey in Albion and Maribyrnong, triple-storey in Essendon. The Albion townhouses were completed in about six months.", [
     ["townhouses-albion-2", "Albion: finished front", "Finished two-storey townhouse in white and charcoal brick with a garage and timber fence"],
     ["townhouses-albion-3", "Albion: from the street", "Two finished townhouses seen from the street"],
@@ -560,6 +554,12 @@ const jobs = [
     ["clarendon-floor-frame", "New floor frame", "New timber floor frame with yellow bearers going down"],
     ["clarendon-roof-trusses", "Roof trusses up", "New timber roof trusses over the walls"],
   ]],
+  ["ndis-bathroom", "NDIS bathroom renovation", "A bathroom rebuilt for an NDIS participant: stripped out, waterproofed, retiled, with grab rails in the shower.", [
+    ["ndis-bathroom-finished", "Finished, with grab rails", "Renovated bathroom with grab rails in the shower and a freestanding bath"],
+    ["ndis-bathroom-strip-out", "Strip-out", "Old tiles stripped from the bathroom walls, with tools on the floor"],
+    ["ndis-bathroom-waterproofing", "Waterproofing", "Bathroom wall sheeted and waterproofed, with a shower niche"],
+    ["ndis-bathroom-tiling", "Tiling", "Large white wall tiles going up with levelling clips"],
+  ]],
   ["balcony", "Balcony repair, Maribyrnong", "A first-floor balcony rebuilt: new waterproofing membrane, then large-format tiles.", [
     ["balcony-scaffold", "Scaffold up", "Townhouse front with scaffold on the first-floor balcony"],
     ["balcony-membrane", "Waterproofing membrane", "Balcony floor coated with a black waterproofing membrane"],
@@ -587,7 +587,7 @@ const jobs = [
 ];
 pages["projects.html"] = page("projects.html", "Projects | Wollemi Group",
   "Civil, concrete and building work by Wollemi Group in Melbourne.", `
-<section class="page-hero"><div class="wrap">${roof}<p class="eyebrow">Projects</p><h1>Our work</h1><p class="lead">Townhouses, a granny flat, an extension, a balcony, and civil and concrete work. All photos are from Wollemi jobs.</p></div></section>
+<section class="page-hero"><div class="wrap">${roof}<p class="eyebrow">Projects</p><h1>Our work</h1><p class="lead">Townhouses, a granny flat, an extension, an NDIS bathroom, balconies, and civil and concrete work. All photos are from Wollemi jobs.</p></div></section>
 ${jobs.map(([id, h, p, shots], i) => `<section class="band${i % 2 ? "" : " panel"}" id="${id}"><div class="wrap">
   <h2>${h}</h2><p>${p}</p>
   <div class="gallery">${shots.map(([f, c, a]) => `<figure><img src="assets/img/jobs/${f}.jpg" alt="${a}" loading="lazy"><figcaption><span class="tag real">Wollemi job</span>${c}</figcaption></figure>`).join("")}</div>
@@ -628,11 +628,11 @@ pages["about.html"] = page("about.html", "About | Wollemi Group",
 <section class="band"><div class="wrap">
   <h2>Who we are</h2>
   <div class="cards two">
-    <div class="card"><h3>Helen Pham</h3><p class="eyebrow" style="margin:0 0 8px">Co-founder and Director, Compliance and Operations</p>
-      <p>Helen co-founded Wollemi Group with her husband and is a director of the company. She is a registered building surveyor and a registered domestic builder. Her work in building regulation started in 2006 at the Building Commission, including as a technical adviser to the Building Appeals Board. Since then she has been an assistant building surveyor at Banyule City Council, a director and building surveyor from 2013 to 2021, a building surveyor at Moonee Valley City Council, and an access consultant.</p>
+    <div class="card"><h3>Helen</h3><p class="eyebrow" style="margin:0 0 8px">Founder and Director, Compliance and Operations</p>
+      <p>Helen is a founder and director of Wollemi Group. She is a registered building surveyor and a registered domestic builder. Her work in building regulation started in 2006 at the Building Commission, including as a technical adviser to the Building Appeals Board. Since then she has been an assistant building surveyor at Banyule City Council, a director and building surveyor from 2013 to 2021, a building surveyor at Moonee Valley City Council, and an access consultant.</p>
       <p style="margin-top:10px">At Wollemi she coordinates projects and manages compliance documents and approval submissions. She is a member of Moonee Valley City Council's Disability Advisory Committee.</p></div>
-    <div class="card"><h3>Ben</h3><p class="eyebrow" style="margin:0 0 8px">Co-founder</p>
-      <p>Ben co-founded Wollemi Group with his wife, Helen. He worked for years in IT, managing teams and systems, and spent his weekends on renovations, extensions and townhouse builds. He now works in the business full-time, running sites and schedules, and uses digital tools to help keep jobs on track.</p>
+    <div class="card"><h3>Ben</h3><p class="eyebrow" style="margin:0 0 8px">Founder</p>
+      <p>Ben is a founder of Wollemi Group. He worked for years in IT, managing teams and systems, and spent his weekends on renovations, extensions and townhouse builds. He now works in the business full-time, running sites and schedules, and uses digital tools to help keep jobs on track.</p>
       <p style="margin-top:10px">Call Ben about a job on <a href="tel:${TEL}">${PHONE}</a>.</p></div>
   </div>
 </div></section>
