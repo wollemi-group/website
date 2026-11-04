@@ -27,7 +27,8 @@ const SOCIAL = [
   { name: "Facebook", href: "#", icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11.5" fill="#fff"/><path fill="#0866FF" d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>` },
   { name: "Instagram", href: "#", icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="ig-grad" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig-grad)"/><rect x="5" y="5" width="14" height="14" rx="4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.1" cy="7.9" r="1" fill="#fff"/></svg>` },
 ];
-const socialRow = SOCIAL.length ? `<ul class="social" aria-label="Wollemi Group on social media">${SOCIAL.map((s) => `<li><a href="${s.href}" aria-label="Wollemi Group on ${s.name}${s.href === "#" ? " (coming soon)" : ""}"${s.href === "#" ? ' data-placeholder="true"' : ' target="_blank" rel="noopener"'}>${s.icon}</a></li>`).join("")}</ul>` : "";
+// The row stays hidden until at least one real page address replaces "#" (5 Nov 2026).
+const socialRow = SOCIAL.some((s) => s.href !== "#") ? `<ul class="social" aria-label="Wollemi Group on social media">${SOCIAL.map((s) => `<li><a href="${s.href}" aria-label="Wollemi Group on ${s.name}${s.href === "#" ? " (coming soon)" : ""}"${s.href === "#" ? ' data-placeholder="true"' : ' target="_blank" rel="noopener"'}>${s.icon}</a></li>`).join("")}</ul>` : "";
 
 // Fade-up on scroll, every page. Visitors who ask their device for less motion see everything at once.
 // ?motion=on forces the motion on for review on test addresses (pages.dev, localhost), never the live domain.
@@ -74,8 +75,8 @@ const MOTION_JS = `<script>
 })();
 </script>`;
 const roof = `<svg class="roof" viewBox="0 0 46 14" aria-hidden="true"><path d="M2 12 L23 2 L44 12"/></svg>`;
-const img = (file, alt, tag, cap) => `<figure><img src="assets/img/${file}" alt="${alt}" loading="lazy">${tag || cap ? `<figcaption>${tag === "real" ? '<span class="tag real">Wollemi job</span>' : tag === "concept" ? '<span class="tag">Concept image</span>' : ""}${cap || ""}</figcaption>` : ""}</figure>`;
-const tag = (t) => t === "real" ? '<span class="tag real" style="margin-bottom:8px">Wollemi job</span>' : '<span class="tag" style="margin-bottom:8px">Concept image</span>';
+const img = (file, alt, tag, cap) => `<figure><img src="assets/img/${file}" alt="${alt}" loading="lazy">${tag || cap ? `<figcaption>${tag === "concept" ? '<span class="tag">Concept image</span>' : ""}${cap || ""}</figcaption>` : ""}</figure>`;
+const tag = (t) => t === "real" ? "" : '<span class="tag" style="margin-bottom:8px">Concept image</span>';
 const card = (href, file, t, h, p) => `<a class="card photo" href="${href}" style="text-decoration:none;color:inherit"><img src="assets/img/${file}" alt="" loading="lazy"><div class="t">${tag(t)}<h3>${h}</h3><p>${p}</p></div></a>`;
 
 const NAV = [
@@ -231,9 +232,9 @@ pages["index.html"] = page("index.html", "Wollemi Group | Builders, building per
 <section class="band">
   <div class="wrap">
     <div class="paths three">
-      <a class="path" href="building.html"><img src="assets/img/jobs/townhouses-albion-3.jpg" alt="" loading="lazy"><div><span class="tag real" style="margin-bottom:8px">Wollemi job</span><p class="eyebrow">For homeowners</p><h3>Building or renovating?</h3><p>Custom homes, granny flats, renovations and extensions, and NDIS home modifications.</p><span class="go">Building &rarr;</span></div></a>
+      <a class="path" href="building.html"><img src="assets/img/jobs/townhouses-albion-3.jpg" alt="" loading="lazy"><div><p class="eyebrow">For homeowners</p><h3>Building or renovating?</h3><p>Custom homes, granny flats, renovations and extensions, and NDIS home modifications.</p><span class="go">Building &rarr;</span></div></a>
       <a class="path" href="surveying.html"><div class="pfill">${roof}<b>Plans · Permit · Inspections · Final</b></div><div><p class="eyebrow">For owners, designers and builders</p><h3>Need a building permit?</h3><p>Plan assessment, building permits, stage inspections and final sign-off from our registered building surveyor.</p><span class="go">Building permits &rarr;</span></div></a>
-      <a class="path" href="civil-concrete.html"><img src="assets/img/jobs/drainage-pipework.jpg" alt="" loading="lazy"><div><span class="tag real" style="margin-bottom:8px">Wollemi job</span><p class="eyebrow">For builders and project teams</p><h3>Need civil or concrete work?</h3><p>Pits and pipes, drainage, council footpaths, kerb and channel, digging and complex concrete.</p><span class="go">Civil and concrete &rarr;</span></div></a>
+      <a class="path" href="civil-concrete.html"><img src="assets/img/jobs/drainage-pipework.jpg" alt="" loading="lazy"><div><p class="eyebrow">For builders and project teams</p><h3>Need civil or concrete work?</h3><p>Pits and pipes, drainage, council footpaths, kerb and channel, digging and complex concrete.</p><span class="go">Civil and concrete &rarr;</span></div></a>
     </div>
   </div>
 </section>
@@ -251,7 +252,7 @@ pages["index.html"] = page("index.html", "Wollemi Group | Builders, building per
         <li>Vehicle turntables and complex concrete</li>
       </ul>
     </div>
-    <div class="real-small">${img("civil-drainage-pit.jpg", "Concrete drainage pit with a pipe connection, next to a new footpath", "real", " Drainage pit and pipe connection")}</div>
+    <div class="real-small">${img("civil-drainage-pit.jpg", "Concrete drainage pit with a pipe connection, next to a new footpath", "real", "Drainage pit and pipe connection")}</div>
   </div>
 </section>
 
@@ -263,6 +264,7 @@ pages["index.html"] = page("index.html", "Wollemi Group | Builders, building per
       ${card("granny-flats.html", "jobs/granny-flat-kitchen.jpg", "real", "Granny flats", "Small second dwellings for family, a studio or a rental, on your existing block.")}
       ${card("projects.html#clarendon", "jobs/clarendon-roof-trusses.jpg", "real", "Renovations and extensions", "From minor updates to complete renovations, and commercial fit-outs.")}
       ${card("projects.html#ndis-bathroom", "jobs/ndis-bathroom-finished.jpg", "real", "NDIS home modifications", "Changes to a home for an NDIS participant, small or structural, alongside their OT.")}
+      ${card("building-maintenance.html", "jobs/balcony-tiled.jpg", "real", "Building maintenance", "Repairs and upkeep for homeowners, landlords and property managers, from a sticking door to a roof leak.")}
       ${card("civil-concrete.html#turntables", "jobs/turntable-kew-driveway.jpg", "real", "Vehicle turntables", "So cars on tight blocks and narrow driveways can drive out forwards.")}
       ${card("civil-concrete.html#council", "civil-footpath-and-driveway.jpg", "real", "Footpaths, kerbs and crossovers", "Built to the council's specification, with the pits and pipes that go with them.")}
     </div>
@@ -346,7 +348,7 @@ pages["granny-flats.html"] = page("granny-flats.html", "Granny flats | Wollemi G
 <section class="band"><div class="wrap">
   <h2>A granny flat we built, St Albans</h2>
   <p>A small second dwelling in a back yard: steel frame, brick, its own kitchen, bathroom and laundry.</p>
-  <div class="gallery">${grannyShots.map(([f, c, a]) => `<figure><img src="assets/img/jobs/${f}.jpg" alt="${a}" loading="lazy"><figcaption><span class="tag real">Wollemi job</span>${c}</figcaption></figure>`).join("")}</div>
+  <div class="gallery">${grannyShots.map(([f, c, a]) => `<figure><img src="assets/img/jobs/${f}.jpg" alt="${a}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join("")}</div>
   <p><a href="projects.html#granny-flat">See this job on the Projects page &rarr;</a></p>
 </div></section>
 
@@ -405,7 +407,7 @@ pages["building-maintenance.html"] = page("building-maintenance.html", "Building
 <section class="band panel"><div class="wrap">
   <h2>Repairs we have done</h2>
   <p>Two balcony repairs: new waterproofing, then large-format tiles.</p>
-  <div class="gallery">${maintShots.map(([f, c, a]) => `<figure><img src="assets/img/jobs/${f}.jpg" alt="${a}" loading="lazy"><figcaption><span class="tag real">Wollemi job</span>${c}</figcaption></figure>`).join("")}</div>
+  <div class="gallery">${maintShots.map(([f, c, a]) => `<figure><img src="assets/img/jobs/${f}.jpg" alt="${a}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join("")}</div>
   <p><a href="projects.html">See more on the Projects page &rarr;</a></p>
 </div></section>
 ${cta("Need something fixed?", `Call ${CONTACT} on ${PHONE}, or send a message with photos of the problem and we'll come back to you with the next step.`)}`);
@@ -494,16 +496,16 @@ pages["civil-concrete.html"] = page("civil-concrete.html", "Civil and concrete w
 
 <section class="band"><div class="wrap">
   <div class="cards four">
-    <div class="card photo"><img src="assets/img/jobs/drainage-pipework.jpg" alt="White drainage pipework laid in an open trench with pit connections" loading="lazy"><div class="t"><h3>Civil pits and pipes</h3><p>Pipe laying, pit construction and utility connections.</p><p class="hint" style="margin-top:8px"><span class="tag real">Wollemi job</span></p></div></div>
-    <div class="card photo"><img src="assets/img/civil-trench-and-conduit.jpg" alt="Narrow trench beside a kerb with exposed services" loading="lazy"><div class="t"><h3>Non-destructive digging (NDD)</h3><p>Careful excavation where existing services and site conditions call for it.</p><p class="hint" style="margin-top:8px"><span class="tag real">Wollemi job</span></p></div></div>
-    <div class="card photo"><img src="assets/img/civil-footpath-and-driveway.jpg" alt="New concrete footpath meeting a driveway crossover" loading="lazy"><div class="t"><h3>Footpaths and crossovers</h3><p>Concrete footpaths, driveways and crossovers, new, repaired or replaced.</p><p class="hint" style="margin-top:8px"><span class="tag real">Wollemi job</span></p></div></div>
-    <div class="card photo"><img src="assets/img/civil-concrete-pit.jpg" alt="Square concrete pit cast in place, with a pipe opening" loading="lazy"><div class="t"><h3>Complex concrete</h3><p>Detailed pours, cast-in-place pits and circular turntable slabs.</p><p class="hint" style="margin-top:8px"><span class="tag real">Wollemi job</span></p></div></div>
+    <div class="card photo"><img src="assets/img/jobs/drainage-pipework.jpg" alt="White drainage pipework laid in an open trench with pit connections" loading="lazy"><div class="t"><h3>Civil pits and pipes</h3><p>Pipe laying, pit construction and utility connections.</p></div></div>
+    <div class="card photo"><img src="assets/img/civil-trench-and-conduit.jpg" alt="Narrow trench beside a kerb with exposed services" loading="lazy"><div class="t"><h3>Non-destructive digging (NDD)</h3><p>Careful excavation where existing services and site conditions call for it.</p></div></div>
+    <div class="card photo"><img src="assets/img/civil-footpath-and-driveway.jpg" alt="New concrete footpath meeting a driveway crossover" loading="lazy"><div class="t"><h3>Footpaths and crossovers</h3><p>Concrete footpaths, driveways and crossovers, new, repaired or replaced.</p></div></div>
+    <div class="card photo"><img src="assets/img/civil-concrete-pit.jpg" alt="Square concrete pit cast in place, with a pipe opening" loading="lazy"><div class="t"><h3>Complex concrete</h3><p>Detailed pours, cast-in-place pits and circular turntable slabs.</p></div></div>
   </div>
 </div></section>
 
 <section class="band panel" id="council"><div class="wrap split">
   <div><h2>Footpaths, crossovers, kerb and channel</h2><p>Built to the local council's specification, whether the job is for a builder, an owner or the council.</p><ul class="ticks"><li>Footpaths and public walkways</li><li>Vehicle crossovers</li><li>Kerb and channel</li><li>Drainage pits, pipes and connections</li></ul></div>
-  <div class="real-small">${img("civil-drainage-pit.jpg", "Drainage pit with a pipe connection beside a new footpath", "real", " Drainage pit beside a new footpath")}</div>
+  <div class="real-small">${img("civil-drainage-pit.jpg", "Drainage pit with a pipe connection beside a new footpath", "real", "Drainage pit beside a new footpath")}</div>
 </div></section>
 
 <section class="band" id="turntables"><div class="wrap split">
@@ -590,11 +592,11 @@ pages["projects.html"] = page("projects.html", "Projects | Wollemi Group",
 <section class="page-hero"><div class="wrap">${roof}<p class="eyebrow">Projects</p><h1>Our work</h1><p class="lead">Townhouses, a granny flat, an extension, an NDIS bathroom, balconies, and civil and concrete work. All photos are from Wollemi jobs.</p></div></section>
 ${jobs.map(([id, h, p, shots], i) => `<section class="band${i % 2 ? "" : " panel"}" id="${id}"><div class="wrap">
   <h2>${h}</h2><p>${p}</p>
-  <div class="gallery">${shots.map(([f, c, a]) => `<figure><img src="assets/img/jobs/${f}.jpg" alt="${a}" loading="lazy"><figcaption><span class="tag real">Wollemi job</span>${c}</figcaption></figure>`).join("")}</div>
+  <div class="gallery">${shots.map(([f, c, a]) => `<figure><img src="assets/img/jobs/${f}.jpg" alt="${a}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join("")}</div>
 </div></section>`).join("\n")}
 <section class="band" id="civil"><div class="wrap">
   <h2>Civil, concrete and turntables</h2>
-  <div class="gallery">${civilShots.map(([f, c, a, sub]) => `<figure><img src="assets/img/${f}" alt="${a}" loading="lazy"><figcaption><span class="tag real">Wollemi job</span>${c}${sub ? ", " + sub : ""}</figcaption></figure>`).join("")}</div>
+  <div class="gallery">${civilShots.map(([f, c, a, sub]) => `<figure><img src="assets/img/${f}" alt="${a}" loading="lazy"><figcaption>${c}${sub ? ", " + sub : ""}</figcaption></figure>`).join("")}</div>
 </div></section>
 <section class="band panel"><div class="wrap">
   <h2>See it in person</h2>
@@ -660,7 +662,7 @@ pages["contact.html"] = page("contact.html", "Contact and bookings | Wollemi Gro
       <div class="field"><label for="role">Are you the owner, the builder or the designer?</label>
         <select id="role" name="role"><option value="">Choose one</option><option>Owner</option><option>Builder</option><option>Designer or OT</option><option>Other</option></select></div>
       <div class="field"><label for="message">Tell us about the job</label><textarea id="message" name="message" required></textarea>
-        <p class="hint">If you have plans or photos, mention it and we'll ask for them when we reply.</p></div>
+        <p class="hint">Have plans or photos? Email them to <a href="mailto:${EMAIL}">${EMAIL}</a> with your name and the suburb of the job.</p></div>
       <div class="field" style="position:absolute;left:-9999px" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
       ${TURNSTILE_SITEKEY ? `<div class="cf-turnstile" data-sitekey="${TURNSTILE_SITEKEY}"></div>` : ""}
       <button class="btn" type="submit">Send enquiry</button>
