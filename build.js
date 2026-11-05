@@ -10,6 +10,9 @@ const OUT = path.join(__dirname, "public");
 
 const TURNSTILE_SITEKEY = "0x4AAAAAAFgcMMGbJPckkNkw"; // public site key (the secret key lives in Cloudflare only)
 const PHONE = "0481 008 080", TEL = "+61481008080", EMAIL = "admin@wollemigroup.co", CONTACT = "Ben";
+const BUILDER_REG = "Domestic builder (unlimited), Wollemi Group Pty Ltd, CDB-U 101529";
+const SURVEYOR_NO = "BS-L 39332";                                    // Helen's CV, 16 Oct
+const SURVEYOR_REG = `Building surveyor (limited), Helen Pham, ${SURVEYOR_NO}`;
 const C = (t) => `<span class="confirm">${t}</span>`;            // to confirm with Wollemi
 
 // Home page hero video. PLACEHOLDER (25 Oct 2026): a 17-second loop made from Wollemi's own job photos.
@@ -165,6 +168,7 @@ ${file === "contact.html" ? FORM_JS : ""}
     </div>
     <div class="base">
       <span>Wollemi Group Pty Ltd · ABN 17 684 114 529</span>
+      <span class="regs"><span>${BUILDER_REG}</span><span>${SURVEYOR_REG}</span><span>The surveyor doesn't act on jobs Wollemi designs or builds.</span></span>
     </div>
   </div>
 </footer>
@@ -447,6 +451,10 @@ pages["surveying.html"] = page("surveying.html", "Building permits and building 
       <li>Vehicle turntables</li>
       <li>Commercial fit-outs</li>
     </ul>
+    <div class="notice" style="margin-top:16px">
+      <h3>Registration</h3>
+      <p>${SURVEYOR_REG}, Building and Plumbing Commission (formerly the VBA).</p>
+    </div>
   </div>
   ${img("jobs/townhouses-frames-scaffold.jpg", "Two-storey townhouse frames with scaffold and edge protection around the roof", "real", " Townhouses at frame stage")}
 </div></section>
@@ -637,6 +645,8 @@ pages["about.html"] = page("about.html", "About | Wollemi Group",
       <p>Ben is a founder of Wollemi Group. He worked for years in IT, managing teams and systems, and spent his weekends on renovations, extensions and townhouse builds. He now works in the business full-time, running sites and schedules, and uses digital tools to help keep jobs on track.</p>
       <p style="margin-top:10px">Call Ben about a job on <a href="tel:${TEL}">${PHONE}</a>.</p></div>
   </div>
+  <h2 style="margin-top:32px">Registrations</h2>
+  <ul class="ticks"><li>${BUILDER_REG}</li><li>${SURVEYOR_REG}</li></ul>
 </div></section>
 
 ${cta()}`);
