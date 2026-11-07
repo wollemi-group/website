@@ -123,7 +123,6 @@ const page = (file, title, desc, body) => {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
 <meta name="description" content="${desc}">
-<meta name="robots" content="noindex">
 <link rel="icon" href="assets/logo/favicon-32.png" sizes="32x32">
 <link rel="icon" href="assets/logo/favicon-16.png" sizes="16x16">
 <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
