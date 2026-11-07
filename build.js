@@ -12,7 +12,7 @@ const TURNSTILE_SITEKEY = "0x4AAAAAAFgcMMGbJPckkNkw"; // public site key (the se
 const PHONE = "0481 008 080", TEL = "+61481008080", EMAIL = "admin@wollemigroup.co", CONTACT = "Ben";
 const BUILDER_REG = "Domestic builder (unlimited), Wollemi Group Pty Ltd, CDB-U 101529";
 const SURVEYOR_NO = "BS-L 39332";                                    // Helen's CV, 16 Oct
-const SURVEYOR_REG = `Building surveyor (limited), Helen Pham, ${SURVEYOR_NO}`;
+const SURVEYOR_REG = `Building surveyor (limited), H Pham, ${SURVEYOR_NO}`;
 const C = (t) => `<span class="confirm">${t}</span>`;            // to confirm with Wollemi
 
 // Home page hero video. PLACEHOLDER (25 Oct 2026): a 17-second loop made from Wollemi's own job photos.
