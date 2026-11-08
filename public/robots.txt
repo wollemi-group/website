@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wollemigroup.co/sitemap.xml

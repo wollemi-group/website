@@ -701,3 +701,17 @@ fs.mkdirSync(OUT, { recursive: true });
 const clean = (h) => h.replace(/href="([a-z-]+)\.html(#[^"]*)?"/g, (m, n, hash) => `href="${n === "index" ? "/" : "/" + n}${hash || ""}"`);
 for (const [f, html] of Object.entries(pages)) fs.writeFileSync(path.join(OUT, f), clean(html));
 console.log("pages:", Object.keys(pages).join(", "));
+
+// robots.txt and sitemap.xml, so search engines find every page.
+// Without these, Cloudflare Pages answers /robots.txt with the home page.
+const SITE = "https://wollemigroup.co";
+const urlFor = (f) => (f === "index.html" ? SITE + "/" : SITE + "/" + f.replace(/\.html$/, ""));
+const today = new Date().toISOString().slice(0, 10);
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${Object.keys(pages).map((f) => `  <url><loc>${urlFor(f)}</loc><lastmod>${today}</lastmod></url>`).join("\n")}
+</urlset>
+`;
+fs.writeFileSync(path.join(OUT, "sitemap.xml"), sitemap);
+fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+console.log("wrote robots.txt and sitemap.xml");
